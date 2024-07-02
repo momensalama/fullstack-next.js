@@ -5,14 +5,13 @@ export const metadata = {
 };
 
 export default function Page() {
-  // CHANGE
   const bookings = [];
 
   return (
     <div>
-      <h2 className="font-semibold text-2xl text-accent-400 mb-7">
+      <h1 className="font-semibold text-2xl text-accent-400 mb-7">
         Your reservations
-      </h2>
+      </h1>
 
       {bookings.length === 0 ? (
         <p className="text-lg">

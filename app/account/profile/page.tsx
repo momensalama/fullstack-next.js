@@ -1,4 +1,5 @@
 import SelectCountry from "@/components/SelectCountry";
+import Image from "next/image";
 
 export const metadata = {
   title: "Update profile",
@@ -11,9 +12,9 @@ export default function Page() {
 
   return (
     <div>
-      <h2 className="font-semibold text-2xl text-accent-400 mb-4">
+      <h1 className="font-semibold text-2xl text-accent-400 mb-4">
         Update your guest profile
-      </h2>
+      </h1>
 
       <p className="text-lg mb-8 text-primary-200">
         Providing the following information will make your check-in process
@@ -40,7 +41,7 @@ export default function Page() {
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <label htmlFor="nationality">Where are you from?</label>
-            <img
+            <Image
               src={countryFlag}
               alt="Country flag"
               className="h-5 rounded-sm"
