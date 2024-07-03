@@ -1,6 +1,6 @@
 import { eachDayOfInterval } from "date-fns";
 import { supabase } from "./supabase";
-import { Bookings, Cabin, Guest } from "@/types";
+import { Bookings, Cabin, Guest, Settings } from "@/types";
 import { notFound } from "next/navigation";
 
 /////////////
@@ -12,9 +12,6 @@ export async function getCabin<T>(id: T): Promise<Cabin> {
     .select("*")
     .eq("id", id)
     .single();
-
-  // For testing
-  // await new Promise((res) => setTimeout(res, 1000));
 
   if (error) {
     console.error(error);
@@ -131,7 +128,7 @@ export async function getBookedDatesByCabinId(
   return bookedDates;
 }
 
-export async function getSettings() {
+export async function getSettings(): Promise<Settings> {
   const { data, error } = await supabase.from("settings").select("*").single();
 
   if (error) {
