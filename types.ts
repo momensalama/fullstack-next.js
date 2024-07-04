@@ -37,6 +37,8 @@ export interface Guest {
   countryFlag: string;
 }
 
+export type CreateGuest = Pick<Guest, "email" | "fullName">;
+
 export interface Settings {
   created_at: string;
   id: number;

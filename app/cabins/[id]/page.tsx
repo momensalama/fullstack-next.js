@@ -2,10 +2,7 @@ import Cabin from "@/components/Cabin";
 import Reservation from "@/components/Reservation";
 import ReservationReminder from "@/components/ReservationReminder";
 import Spinner from "@/components/Spinner";
-import TextExpander from "@/components/TextExpander";
 import { getCabin, getCabins } from "@/lib/data-service";
-import { EyeSlashIcon, MapPinIcon, UsersIcon } from "@heroicons/react/24/solid";
-import Image from "next/image";
 import { Suspense } from "react";
 
 export async function generateMetadata({ params }: { params: { id: string } }) {

@@ -1,6 +1,6 @@
 import { eachDayOfInterval } from "date-fns";
 import { supabase } from "./supabase";
-import { Bookings, Cabin, Guest, Settings } from "@/types";
+import { Bookings, Cabin, CreateGuest, Guest, Settings } from "@/types";
 import { notFound } from "next/navigation";
 
 /////////////
@@ -154,7 +154,7 @@ export async function getCountries() {
 /////////////
 // CREATE
 
-export async function createGuest(newGuest: Guest) {
+export async function createGuest(newGuest: CreateGuest) {
   const { data, error } = await supabase.from("guests").insert([newGuest]);
 
   if (error) {
