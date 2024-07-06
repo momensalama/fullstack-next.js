@@ -2,6 +2,7 @@ import { eachDayOfInterval } from "date-fns";
 import { supabase } from "./supabase";
 import { Bookings, Cabin, CreateGuest, Guest, Settings } from "@/types";
 import { notFound } from "next/navigation";
+import { auth } from "./auth";
 
 /////////////
 // GET
@@ -63,7 +64,7 @@ export async function getGuest(email: string): Promise<Guest> {
   return data;
 }
 
-export async function getBooking(id: string): Promise<Bookings> {
+export async function getBooking(id: number): Promise<Bookings> {
   const { data, error, count } = await supabase
     .from("bookings")
     .select("*")
@@ -78,7 +79,9 @@ export async function getBooking(id: string): Promise<Bookings> {
   return data;
 }
 
-export async function getBookings(guestId: number): Promise<Bookings[]> {
+export async function getBookings(
+  guestId: string | undefined
+): Promise<Bookings[]> {
   const { data, error, count } = await supabase
     .from("bookings")
     // We actually also need data on the cabins as well. But let's ONLY take the data that we actually need, in order to reduce downloaded data.
@@ -226,4 +229,14 @@ export async function deleteBooking(id: number) {
     throw new Error("Booking could not be deleted");
   }
   return data;
+}
+
+export async function handleAuht(bookingId: number) {
+  const session = (await auth()) as any;
+  if (!session) throw new Error("You must be logged in");
+
+  const guestBookings = await getBookings(session?.user?.guestId);
+
+  if (!guestBookings.some((booking) => booking.id === bookingId))
+    throw new Error("You do not have permission to delete this booking");
 }

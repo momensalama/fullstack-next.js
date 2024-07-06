@@ -14,6 +14,7 @@ export interface Bookings {
   hasBreakfast: boolean;
   isPaid: boolean;
   observations: string;
+  cabins: Cabin;
 }
 
 export interface Cabin {
