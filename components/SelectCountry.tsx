@@ -2,10 +2,28 @@
 
 import { getCountries } from "@/lib/data-service";
 
-async function SelectCountry({ defaultCountry, name, id, className }) {
+interface SelectCountryProps {
+  defaultCountry: string;
+  name: string;
+  id: string;
+  className: string;
+}
+
+interface Country {
+  name: string;
+  flag: string;
+}
+
+async function SelectCountry({
+  defaultCountry,
+  name,
+  id,
+  className,
+}: SelectCountryProps) {
   const countries = await getCountries();
   const flag =
-    countries.find((country) => country.name === defaultCountry)?.flag ?? "";
+    countries.find((country: Country) => country.name === defaultCountry)
+      ?.flag ?? "";
 
   return (
     <select
@@ -16,7 +34,7 @@ async function SelectCountry({ defaultCountry, name, id, className }) {
       className={className}
     >
       <option value="">Select country...</option>
-      {countries.map((c) => (
+      {countries.map((c: Country) => (
         <option key={c.name} value={`${c.name}%${c.flag}`}>
           {c.name}
         </option>

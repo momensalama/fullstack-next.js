@@ -32,7 +32,7 @@ export interface Guest {
   id: number;
   email: string;
   fullName: string;
-  natinolity: string;
+  nationality: string;
   nationalID: string;
   countryFlag: string;
 }
