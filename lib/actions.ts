@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { auth, signIn, signOut } from "./auth";
 import { supabase } from "./supabase";
-import { getBookings, handleAuht } from "./data-service";
+import { handleAuht } from "./data-service";
 import { redirect } from "next/navigation";
 import { CreateBooking } from "@/types";
 
