@@ -17,6 +17,11 @@ export interface Bookings {
   cabins: Cabin;
 }
 
+export type CreateBooking = Pick<
+  Bookings,
+  "startDate" | "endDate" | "numNights" | "cabinPrice" | "cabinId"
+>;
+
 export interface Cabin {
   created_at: string;
   id: number;

@@ -1,20 +1,21 @@
 "use client";
 
 import { createContext, useContext, useState } from "react";
+
 const initialState = { from: undefined, to: undefined };
 
 interface range {
-  from: Date | undefined;
-  to: Date | undefined;
+  from: any;
+  to: any;
 }
 
 interface ContextProps {
   range: range;
-  setRange: (range: range) => void;
+  setRange: (range: any) => void;
   resetRange: () => void;
 }
 
-const ReservationContext = createContext({
+const ReservationContext = createContext<ContextProps>({
   range: initialState,
   setRange: (range: any) => {},
   resetRange: () => {},

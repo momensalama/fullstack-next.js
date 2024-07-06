@@ -1,6 +1,5 @@
 import Cabin from "@/components/Cabin";
 import Reservation from "@/components/Reservation";
-import ReservationReminder from "@/components/ReservationReminder";
 import Spinner from "@/components/Spinner";
 import { getCabin, getCabins } from "@/lib/data-service";
 import { Suspense } from "react";
@@ -34,7 +33,6 @@ export default async function Page({ params }: { params: { id: string } }) {
         </h2>
         <Suspense fallback={<Spinner />}>
           <Reservation cabin={cabin} />
-          <ReservationReminder />
         </Suspense>
       </div>
     </div>
