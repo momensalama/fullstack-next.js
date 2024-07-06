@@ -42,7 +42,7 @@ Check out the [live demo of the project](https://fullstack-next-js-v14.vercel.ap
 
 ## Technical Stack
 
-- Framework: Next.js (React meta-framework)
+- Framework: Next.js
 - Styling: Tailwind CSS
 - State Management: React Context API
 - Backend & Database: Supabase
