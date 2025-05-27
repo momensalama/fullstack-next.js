@@ -10,6 +10,7 @@ const authConfig = {
     }),
   ],
   secret: process.env.AUTH_GOOGLE_SECRET,
+  trustHost: true,
   callbacks: {
     authorized({ auth }: any) {
       return !!auth?.user;

@@ -8,18 +8,27 @@ import { auth } from "./auth";
 // GET
 
 export async function getCabin<T>(id: T): Promise<Cabin> {
-  const { data, error } = await supabase
-    .from("cabins")
-    .select("*")
-    .eq("id", id)
-    .single();
+  try {
+    const { data, error } = await supabase
+      .from("cabins")
+      .select("*")
+      .eq("id", id)
+      .single();
 
-  if (error) {
-    console.error(error);
-    notFound();
+    if (error) {
+      console.error("Error fetching cabin:", error);
+      throw new Error("Failed to fetch cabin data");
+    }
+
+    if (!data) {
+      notFound();
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Error in getCabin:", error);
+    throw new Error("Failed to fetch cabin data");
   }
-
-  return data;
 }
 
 export async function getCabinPrice(
@@ -82,21 +91,29 @@ export async function getBooking(id: number): Promise<Bookings> {
 export async function getBookings(
   guestId: string | undefined
 ): Promise<Bookings[]> {
-  const { data, error, count } = await supabase
-    .from("bookings")
-    // We actually also need data on the cabins as well. But let's ONLY take the data that we actually need, in order to reduce downloaded data.
-    .select(
-      "id, created_at, startDate, endDate, numNights, numGuests, totalPrice, guestId, cabinId, cabins(name, image)"
-    )
-    .eq("guestId", guestId)
-    .order("startDate");
+  try {
+    if (!guestId) {
+      throw new Error("Guest ID is required");
+    }
 
-  if (error) {
-    console.error(error);
-    throw new Error("Bookings could not get loaded");
+    const { data, error } = await supabase
+      .from("bookings")
+      .select(
+        "id, created_at, startDate, endDate, numNights, numGuests, totalPrice, guestId, cabinId, cabins(name, image)"
+      )
+      .eq("guestId", guestId)
+      .order("startDate");
+
+    if (error) {
+      console.error("Error fetching bookings:", error);
+      throw new Error("Failed to fetch bookings data");
+    }
+
+    return data || [];
+  } catch (error) {
+    console.error("Error in getBookings:", error);
+    throw new Error("Failed to fetch bookings data");
   }
-
-  return data;
 }
 
 export async function getBookedDatesByCabinId(
@@ -145,11 +162,18 @@ export async function getSettings(): Promise<Settings> {
 export async function getCountries() {
   try {
     const res = await fetch(
-      "https://restcountries.com/v2/all?fields=name,flag"
+      "https://restcountries.com/v2/all?fields=name,flag",
+      { next: { revalidate: 3600 } } // Cache for 1 hour
     );
+
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+
     const countries = await res.json();
     return countries;
-  } catch {
+  } catch (error) {
+    console.error("Error fetching countries:", error);
     throw new Error("Could not fetch countries");
   }
 }
